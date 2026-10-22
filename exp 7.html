@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoltEdge Electronics E-Mart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+:root{
+  --navy:#0F1F3D;
+  --blue:#1E5AA8;
+  --mist:#EAF0F7;
+  --volt:#F2A900;
+  --steel:#33506E;
+  --ink:#16202E;
+  --line: rgba(22,32,46,0.14);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--mist);
+  color:var(--ink);
+  font-family:'Inter',sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3{
+  font-family:'Space Grotesk',sans-serif;
+  margin:0;
+  font-weight:500;
+}
+p{margin:0 0 1em;}
+a{color:inherit;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+section{padding:96px 0;}
+
+/* NAV */
+#topnav{
+  position:sticky;top:0;z-index:50;
+  background:var(--navy);
+  color:#fff;
+  transition:padding .25s ease;
+}
+#topnav .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:22px;padding-bottom:22px;
+  transition:padding .25s ease;
+}
+#topnav.condensed .wrap{padding-top:12px;padding-bottom:12px;}
+.brand{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;}
+.brand span{color:var(--volt);}
+#navlinks{list-style:none;display:flex;gap:30px;margin:0;padding:0;}
+#navlinks a{text-decoration:none;font-size:.94rem;color:#D5E0F0;border-bottom:1px solid transparent;padding-bottom:3px;}
+#navlinks a:hover{border-color:var(--volt);color:#fff;}
+#navToggle{display:none;background:none;border:1px solid var(--steel);color:#fff;padding:8px 12px;border-radius:3px;font-size:.9rem;cursor:pointer;}
+
+/* HERO */
+#hero{padding-top:76px;padding-bottom:76px;}
+#hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;}
+#hero h1{font-size:clamp(2.1rem,4vw,3.1rem);line-height:1.12;max-width:13ch;}
+#hero .lede{max-width:46ch;font-size:1.08rem;color:#34425A;margin-top:20px;}
+.stat-row{display:flex;gap:36px;margin-top:34px;}
+.stat-row div{border-left:2px solid var(--volt);padding-left:14px;}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;display:block;}
+.stat-label{font-size:.82rem;color:#55627A;}
+.cta-row{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+.btn{
+  display:inline-block;padding:12px 22px;border-radius:2px;font-size:.94rem;
+  text-decoration:none;cursor:pointer;border:1px solid transparent;font-family:'Inter',sans-serif;
+}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:#174884;}
+.btn-ghost{border-color:var(--navy);color:var(--navy);background:transparent;}
+.btn-ghost:hover{background:var(--navy);color:#fff;}
+.hero-mark{
+  aspect-ratio:1/1;background:var(--navy);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;font-size:7rem;
+}
+
+/* SECTION HEADS */
+.sec-head{max-width:56ch;margin-bottom:44px;}
+.sec-head h2{font-size:1.9rem;}
+.sec-head p{color:#44526A;margin-top:12px;}
+
+/* PRODUCTS */
+#products{background:#DCE6F2;}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px;}
+.filter-btn{
+  padding:8px 16px;border:1px solid var(--navy);background:transparent;color:var(--navy);
+  border-radius:20px;font-size:.86rem;cursor:pointer;font-family:'Inter',sans-serif;
+}
+.filter-btn.active{background:var(--navy);color:#fff;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:3px;padding:22px;
+  cursor:pointer;
+}
+.card .icon{font-size:2rem;display:block;margin-bottom:10px;}
+.card h3{font-size:1.15rem;}
+.card .cat-tag{font-size:.76rem;color:var(--steel);margin-top:4px;display:block;}
+.card .price{
+  display:inline-block;margin-top:10px;font-size:.8rem;padding:3px 9px;border-radius:12px;
+  background:#FCEFCB;color:#7A5500;
+}
+.card .detail{
+  display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);
+  font-size:.9rem;color:#44526A;
+}
+.card.open .detail{display:block;}
+
+/* BUDGET CALCULATOR */
+#budget .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;}
+.calc-box{background:var(--navy);color:#fff;padding:32px;border-radius:4px;}
+.calc-box label{display:block;font-size:.86rem;color:#B8C8E0;margin-bottom:8px;}
+.amount-row{display:flex;align-items:center;background:#0A1530;border-radius:3px;padding:6px 14px;margin-bottom:18px;}
+.amount-row span{color:#B8C8E0;margin-right:6px;}
+.amount-row input{
+  background:none;border:none;color:#fff;font-size:1.4rem;font-family:'Space Grotesk',sans-serif;
+  width:100%;outline:none;
+}
+.quick-amounts{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.quick-amounts button{
+  background:transparent;border:1px solid var(--steel);color:#D5E0F0;padding:6px 12px;
+  border-radius:16px;font-size:.82rem;cursor:pointer;
+}
+.quick-amounts button:hover{border-color:var(--volt);}
+.impact-out{list-style:none;margin:0;padding:0;}
+.impact-out li{
+  display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid var(--line);
+  font-size:.98rem;
+}
+.impact-out li:first-child{border-top:none;}
+.impact-out .figure{font-family:'Space Grotesk',sans-serif;color:var(--blue);font-size:1.2rem;}
+
+/* STOCK BARS */
+#stock{background:#DCE6F2;}
+.trend-row{margin-bottom:26px;}
+.trend-row .trend-label{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:8px;}
+.trend-track{height:10px;background:#BFCDE0;border-radius:6px;overflow:hidden;}
+.trend-fill{height:100%;width:0;background:var(--blue);border-radius:6px;}
+.trend-fill.warn{background:var(--volt);}
+
+/* ORDER FORM */
+#order .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+#orderForm{display:flex;flex-direction:column;gap:14px;}
+#orderForm input, #orderForm select{
+  padding:12px 14px;border:1px solid var(--line);border-radius:2px;font-family:'Inter',sans-serif;
+  font-size:.95rem;background:#fff;
+}
+#formMsg{font-size:.9rem;margin-top:6px;display:none;padding:10px 14px;border-radius:2px;}
+#formMsg.ok{display:block;background:#D9EEDC;color:#1F4D2A;}
+#formMsg.err{display:block;background:#F8DCD5;color:#8C2E18;}
+
+footer{background:var(--navy);color:#B8C8E0;padding:40px 0;font-size:.86rem;}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+@media(max-width:820px){
+  #hero .wrap{grid-template-columns:1fr;}
+  .hero-mark{order:-1;max-width:280px;margin:0 auto;}
+  .grid{grid-template-columns:1fr 1fr;}
+  #budget .wrap,#order .wrap{grid-template-columns:1fr;}
+  #navlinks{
+    position:absolute;top:100%;left:0;right:0;background:var(--navy);
+    flex-direction:column;padding:18px 28px;display:none;gap:16px;
+  }
+  #navToggle{display:inline-block;}
+}
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr;}
+  section{padding:64px 0;}
+}
+</style>
+</head>
+<body>
+
+<nav id="topnav">
+  <div class="wrap">
+    <div class="brand">VoltEdge <span>Electronics</span></div>
+    <button id="navToggle">Menu</button>
+    <ul id="navlinks">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#budget">Your budget</a></li>
+      <li><a href="#stock">Stock levels</a></li>
+      <li><a href="#order">Place order</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="hero">
+  <div class="wrap">
+    <div>
+      <h1>Smart gadgets for everyday life.</h1>
+      <p class="lede">VoltEdge sells smartphones, laptops, and audio gear from three city stores. Every figure on this page comes from this month's inventory log.</p>
+      <div class="stat-row">
+        <div><span class="stat-num">120+</span><span class="stat-label">gadgets in stock</span></div>
+        <div><span class="stat-num">6</span><span class="stat-label">featured products</span></div>
+        <div><span class="stat-num">3</span><span class="stat-label">city stores</span></div>
+      </div>
+      <div class="cta-row">
+        <a href="#budget" class="btn btn-primary">See what your budget buys</a>
+        <a href="#products" class="btn btn-ghost">Browse products</a>
+      </div>
+    </div>
+    <div class="hero-mark">&#128241;</div>
+  </div>
+</header>
+
+<section id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Featured gadgets</h2>
+      <p>Filter by category to see matching products, and tap a card to open its specifications.</p>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All items</button>
+      <button class="filter-btn" data-filter="mobile">Mobiles</button>
+      <button class="filter-btn" data-filter="laptop">Laptops</button>
+      <button class="filter-btn" data-filter="audio">Audio</button>
+    </div>
+    <div class="grid" id="productGrid">
+      <div class="card" data-category="mobile">
+        <span class="icon">&#128241;</span>
+        <h3>Quantum X Smartphone</h3>
+        <span class="cat-tag">Mobiles, flagship series</span>
+        <span class="price">Rs.54,999</span>
+        <div class="detail">16GB RAM, 1TB storage, 120Hz OLED display and a 5000mAh battery with 65W fast charging.</div>
+      </div>
+      <div class="card" data-category="laptop">
+        <span class="icon">&#128187;</span>
+        <h3>AeroBook Pro 14</h3>
+        <span class="cat-tag">Laptops, ultrabook series</span>
+        <span class="price">Rs.89,999</span>
+        <div class="detail">Core i7 processor, 16GB RAM, 512GB SSD, 14-inch 2.8K display. Weighs just 1.2 kg.</div>
+      </div>
+      <div class="card" data-category="audio">
+        <span class="icon">&#127911;</span>
+        <h3>PulseBuds ANC</h3>
+        <span class="cat-tag">Audio, wireless earbuds</span>
+        <span class="price">Rs.3,499</span>
+        <div class="detail">Active noise cancellation, Bluetooth 5.3 and 30 hours of total playback with the charging case.</div>
+      </div>
+      <div class="card" data-category="mobile">
+        <span class="icon">&#8986;</span>
+        <h3>Nova Smart Watch</h3>
+        <span class="cat-tag">Mobiles, wearables</span>
+        <span class="price">Rs.6,999</span>
+        <div class="detail">1.4-inch AMOLED screen, heart-rate and SpO2 tracking, GPS and a 10-day battery life.</div>
+      </div>
+      <div class="card" data-category="laptop">
+        <span class="icon">&#128421;</span>
+        <h3>StreamPad 15 Laptop</h3>
+        <span class="cat-tag">Laptops, everyday series</span>
+        <span class="price">Rs.42,500</span>
+        <div class="detail">Ryzen 5 processor, 8GB RAM, 512GB SSD and a 15.6-inch full HD anti-glare display.</div>
+      </div>
+      <div class="card" data-category="audio">
+        <span class="icon">&#128266;</span>
+        <h3>BoomBar Speaker</h3>
+        <span class="cat-tag">Audio, portable speakers</span>
+        <span class="price">Rs.4,200</span>
+        <div class="detail">360-degree sound, IP67 water resistance and 18 hours of playback on a single charge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="budget">
+  <div class="wrap">
+    <div>
+      <div class="sec-head">
+        <h2>What your budget actually buys</h2>
+        <p>Move the amount and see it converted into the accessories it covers, using this month's store prices.</p>
+      </div>
+      <div class="calc-box">
+        <label for="budgetAmount">Shopping budget</label>
+        <div class="amount-row">
+          <span>Rs.</span>
+          <input type="number" id="budgetAmount" value="25000" min="0">
+        </div>
+        <div class="quick-amounts">
+          <button type="button" data-amt="5000">Rs.5,000</button>
+          <button type="button" data-amt="15000">Rs.15,000</button>
+          <button type="button" data-amt="25000">Rs.25,000</button>
+          <button type="button" data-amt="50000">Rs.50,000</button>
+        </div>
+      </div>
+    </div>
+    <ul class="impact-out" id="impactOut">
+      <li><span>Phone cases</span><span class="figure" id="outCases">0</span></li>
+      <li><span>Wireless earbuds</span><span class="figure" id="outBuds">0</span></li>
+      <li><span>Power banks</span><span class="figure" id="outBanks">0</span></li>
+      <li><span>Smart watches</span><span class="figure" id="outWatches">0</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="stock">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Live stock levels</h2>
+      <p>Bars fill to the share of each product still available in the warehouse.</p>
+    </div>
+    <div class="trend-row">
+      <div class="trend-label"><span>Quantum X Smartphone</span><span>78 of 100 units left</span></div>
+      <div class="trend-track"><div class="trend-fill" data-value="78"></div></div>
+    </div>
+    <div class="trend-row">
+      <div class="trend-label"><span>AeroBook Pro 14</span><span>12 of 40 units left</span></div>
+      <div class="trend-track"><div class="trend-fill warn" data-value="30"></div></div>
+    </div>
+    <div class="trend-row">
+      <div class="trend-label"><span>PulseBuds ANC</span><span>180 of 200 units left</span></div>
+      <div class="trend-track"><div class="trend-fill" data-value="90"></div></div>
+    </div>
+    <div class="trend-row">
+      <div class="trend-label"><span>Nova Smart Watch</span><span>14 of 60 units left</span></div>
+      <div class="trend-track"><div class="trend-fill warn" data-value="23"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="wrap">
+    <div>
+      <div class="sec-head">
+        <h2>Reserve your gadget</h2>
+        <p>Leave your details and we will hold the product for you at your nearest store for 48 hours.</p>
+      </div>
+    </div>
+    <div>
+      <form id="orderForm">
+        <input type="text" id="pName" placeholder="Full name">
+        <input type="email" id="pEmail" placeholder="Email address">
+        <select id="pInterest">
+          <option value="">What are you looking for?</option>
+          <option>Smartphone</option>
+          <option>Laptop</option>
+          <option>Audio gear</option>
+          <option>Just browsing</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Reserve now</button>
+        <div id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>VoltEdge Electronics &mdash; store inventory, updated monthly.</div>
+    <div>3 stores &middot; 120+ gadgets &middot; est. 2012</div>
+  </div>
+</footer>
+
+<script>
+/*
+  Every behaviour below is written with jQuery. The HTML is mostly
+  plain static markup, and jQuery is the layer that listens for events
+  (clicks, typing, scrolling, submitting) and then rewrites the DOM in
+  response, without ever reloading the page.
+*/
+$(document).ready(function(){
+  // $(document).ready() = wait until the HTML has fully loaded
+  // before running any jQuery code that touches it.
+
+  // ---------- FUNCTION 1: Sticky nav that condenses on scroll ----------
+  // Listens to the window's scroll event and toggles a CSS class
+  // based on scroll position.
+  $(window).scroll(function(){
+    if($(window).scrollTop() > 40){
+      $('#topnav').addClass('condensed');
+    } else {
+      $('#topnav').removeClass('condensed');
+    }
+  });
+
+  // ---------- FUNCTION 2: Mobile menu toggle ----------
+  // slideToggle() shows/hides the nav links with a sliding animation
+  // each time the Menu button is clicked.
+  $('#navToggle').click(function(){
+    $('#navlinks').slideToggle(180);
+  });
+  $('#navlinks a').click(function(){
+    if($(window).width() <= 820){ $('#navlinks').slideUp(180); }
+  });
+
+  // ---------- FUNCTION 3: Product category filter ----------
+  // Reads which filter button was clicked with $(this).data('filter'),
+  // then loops through every .card with .each() and shows only the
+  // ones that match. fadeIn()/fadeOut() do the actual DOM update.
+  $('.filter-btn').click(function(){
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+    let category = $(this).data('filter');
+    $('.card').each(function(){
+      if(category === 'all' || $(this).data('category') === category){
+        $(this).fadeIn(200);
+      } else {
+        $(this).fadeOut(200);
+      }
+    });
+  });
+
+  // ---------- FUNCTION 4: Expand/collapse product specs ----------
+  // toggleClass() adds the class if it is missing and removes it if
+  // present, so that single call handles both open and close states.
+  $('.card').click(function(){
+    $(this).toggleClass('open');
+  });
+
+  // ---------- FUNCTION 5: Live budget calculator ----------
+  // Runs on every keystroke (.on('input', ...)) and on every quick-amount
+  // button click. Reads the current number with .val(), does the math,
+  // and writes the results straight into the page with .text().
+  // No page reload, no server call.
+  function updateBudget(){
+    let amt = parseFloat($('#budgetAmount').val()) || 0;
+    let cases   = Math.floor(amt / 400);    // Rs.400 per phone case
+    let buds    = Math.floor(amt / 2500);   // Rs.2,500 per pair of earbuds
+    let banks   = Math.floor(amt / 1500);   // Rs.1,500 per power bank
+    let watches = Math.floor(amt / 4000);   // Rs.4,000 per smart watch
+    $('#outCases').text(cases);
+    $('#outBuds').text(buds);
+    $('#outBanks').text(banks);
+    $('#outWatches').text(watches);
+  }
+  $('#budgetAmount').on('input', updateBudget);
+  $('.quick-amounts button').click(function(){
+    $('#budgetAmount').val($(this).data('amt'));
+    updateBudget();
+  });
+  updateBudget(); // run once on load so the numbers aren't blank
+
+  // ---------- FUNCTION 6: Animated stock level bars ----------
+  // .animate() smoothly changes the CSS width property from 0 to the
+  // target percentage stored in data-value, over 900 milliseconds.
+  $('.trend-fill').each(function(){
+    let target = $(this).data('value');
+    $(this).animate({ width: target + '%' }, 900);
+  });
+
+  // ---------- FUNCTION 7: Order form validation (no page reload) ----------
+  // e.preventDefault() stops the browser's normal form-submit reload.
+  // jQuery then checks the field values with a regex test, and either
+  // shows an error message or a success message in the same DOM element.
+  $('#orderForm').submit(function(e){
+    e.preventDefault();
+    let name = $('#pName').val().trim();
+    let email = $('#pEmail').val().trim();
+    let interest = $('#pInterest').val();
+    let emailOk = /^\S+@\S+\.\S+$/.test(email);
+
+    if(name === '' || !emailOk || interest === ''){
+      $('#formMsg').removeClass('ok').addClass('err')
+        .text('Please fill in your name, a valid email, and what you are looking for.');
+      return;
+    }
+
+    $('#formMsg').removeClass('err').addClass('ok')
+      .text('Thank you, ' + name.split(' ')[0] + '. Your reservation is confirmed. Check your inbox for details.');
+    $('#orderForm')[0].reset();
+  });
+});
+</script>
+</body>
+</html>
